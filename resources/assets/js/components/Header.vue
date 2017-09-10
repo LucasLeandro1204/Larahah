@@ -42,8 +42,6 @@
     .brand {
       padding: 0;
       font-size: 22px;
-      font-weight: 700;
-      font-family: 'Cairo', sans-serif;
     }
 
     ul,

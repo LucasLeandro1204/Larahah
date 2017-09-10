@@ -9,7 +9,7 @@
     <title>Larahah</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Cairo:700|Merriweather+Sans:700|Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cairo:700|Lato:300|Open+Sans:400,600" rel="stylesheet">
     <link href="{{ asset('build/css/app.css') }}" rel="stylesheet" type="text/css">
   </head>
   <body>
