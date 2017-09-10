@@ -9,15 +9,18 @@
           i.fa.fa-bars
         ul(:class="{ open }")
           li(@click="toggle(true)")
-            router-link(:to="{ name: 'home' }") Home
-          li(@click="toggle(true)")
-            router-link(:to="{ name: 'home' }") Register
-          li(@click="toggle(true)")
-            router-link(:to="{ name: 'home' }") Login
+            router-link(:to="{ name: 'home' }" exact) Home
+          template(v-if="!user.name")
+            li(@click="toggle(true)")
+              router-link(:to="{ name: 'register' }") Register
+            li(@click="toggle(true)")
+              router-link(:to="{ name: 'login' }") Login
 </template>
 
 <script>
   export default {
+    store: ['user'],
+
     data: () => ({
       open: false,
     }),
@@ -50,12 +53,15 @@
 
     .close {
       display: none;
-      padding: 15px;
     }
 
     ul {
       display: flex;
       background-color: $primary;
+    }
+
+    li:not(:first-of-type) {
+      margin-left: 15px;
     }
 
     a {
@@ -85,7 +91,7 @@
         height: calc(100vh - 46px);
 
         li {
-          margin: 0;
+          margin: 0 !important;
         }
 
         &.open {

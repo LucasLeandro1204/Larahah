@@ -1,8 +1,10 @@
 import 'babel-polyfill';
 
 import Vue from 'vue';
+import VueStash from 'vue-stash';
 import VueRouter from 'vue-router';
 
+Vue.use(VueStash);
 Vue.use(VueRouter);
 
 import Axios from 'axios';
