@@ -10,6 +10,8 @@ import App from './components/App.vue';
 const router = new VueRouter({
   routes,
   mode: 'history',
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active',
 });
 
 window.App = new Vue({
