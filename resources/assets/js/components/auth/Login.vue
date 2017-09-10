@@ -8,9 +8,9 @@
             img(src="images/letter.png")
             | Larahah
         .block
-          input(type="text", placeholder="Username")
+          input(type="email", name="email", placeholder="Email")
         .block
-          input(type="password", placeholder="Password")
+          input(type="password", name="password", placeholder="Password")
         .block
           button(type="submit") Login
         .block
