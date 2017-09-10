@@ -8,7 +8,8 @@ import routes from './core/routes';
 import App from './components/App.vue';
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history',
 });
 
 window.App = new Vue({

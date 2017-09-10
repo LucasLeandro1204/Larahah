@@ -13,7 +13,13 @@
     <link href="{{ asset('build/ss/app.css') }}" type="text/css">
   </head>
   <body>
-    <div id="larahah"></div>
+    <div id="larahah">
+      <larahah-header></larahah-header>
+      <main>
+        <router-view></router-view>
+      </main>
+      <larahah-footer></larahah-footer>
+    </div>
     <script src="{{ asset('build/js/app.js') }}"></script>
   </body>
 </html>
