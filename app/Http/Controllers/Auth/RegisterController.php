@@ -3,69 +3,26 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Jobs\CreateUser;
+use App\Jobs\CreateToken;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Resources\User as UserResource;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function store()
     {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        $data = request()->validate([
+            'name' => 'required|min:3|max:140',
+            'email' => 'required|unique:users|email',
+            'username' => 'required|unique:users|min:3|max:25',
+            'password' => 'required|confirmed',
         ]);
-    }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $user = dispatch_now(new CreateUser($data));
+
+        return (new UserResource($user))->additional([
+            'token' => dispatch_now(new CreateToken($user)),
         ]);
     }
 }

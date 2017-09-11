@@ -12,11 +12,15 @@ const authenticated = (to, from, next) => {
 }
 
 const logout = (to, from, next) => {
-  Auth.logout();
-  next('/');
+  if (Auth.check()) {
+    Auth.logout();
+    location.reload();
+  } else {
+    next('/');
+  }
 }
 
-export default {
+export {
   logout,
   authenticated,
 }

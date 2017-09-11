@@ -1,9 +1,7 @@
-import { getItem } from './helpers';
+import Auth from './auth';
 
 const Store = {
-  user: getItem('user', () => ({
-    name: '',
-  })),
+  user: Auth.user(),
 }
 
 export default Store;

@@ -11,6 +11,8 @@
 |
 */
 
+Route::post('/register', 'Auth\RegisterController@store');
+
 Route::any('{all}', function () {
     return view('index');
 })
