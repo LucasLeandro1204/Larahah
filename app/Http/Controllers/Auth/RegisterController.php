@@ -22,7 +22,7 @@ class RegisterController extends Controller
         $user = dispatch_now(new CreateUser($data));
 
         return (new UserResource($user))->additional([
-            'token' => dispatch_now(new CreateToken($user)),
+            'token' => dispatch_now(new CreateToken($data)),
         ]);
     }
 }

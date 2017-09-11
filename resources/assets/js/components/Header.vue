@@ -15,6 +15,9 @@
               router-link(:to="{ name: 'register' }") Register
             li(@click="toggle(true)")
               router-link(:to="{ name: 'login' }") Login
+          template(v-else)
+            li(@click="toggle(true)")
+              router-link(:to="{ name: 'logout' }" exact) Logout
 </template>
 
 <script>

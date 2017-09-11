@@ -11,6 +11,14 @@ const authenticated = (to, from, next) => {
   }
 }
 
+const guest = (to, from, next) => {
+  if (! Auth.check()) {
+    next();
+  } else {
+    next('/');
+  }
+}
+
 const logout = (to, from, next) => {
   if (Auth.check()) {
     Auth.logout();
@@ -21,6 +29,7 @@ const logout = (to, from, next) => {
 }
 
 export {
+  guest,
   logout,
   authenticated,
 }

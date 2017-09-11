@@ -1,6 +1,6 @@
 const getItem = (item, cb = () => null) => {
   const data = JSON.parse(localStorage.getItem(item));
-  if (data && data.data != null && data.data != 'undefined') {
+  if (data && (data.data != null && data.data != 'undefined')) {
     return data.data;
   }
 

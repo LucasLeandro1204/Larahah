@@ -9,6 +9,7 @@
         this.form.post().then(({ data: user }) => {
           Auth.login(user);
           this.user = Auth.user();
+          this.$router.push({ name: 'home' });
         });
       }
     }

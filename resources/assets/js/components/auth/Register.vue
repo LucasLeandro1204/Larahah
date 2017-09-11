@@ -38,7 +38,7 @@
 
     data: () => ({
       form: new Form({
-        route: '/register',
+        route: '/api/register',
         fields: {
           name: '',
           email: '',
