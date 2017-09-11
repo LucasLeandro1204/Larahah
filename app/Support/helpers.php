@@ -1,7 +1,5 @@
 <?php
 
-use JWTAuth;
-
 function dispatchInSequence(array $jobs, $data)
 {
     return array_reduce($jobs, function ($data, $job) {
@@ -11,5 +9,5 @@ function dispatchInSequence(array $jobs, $data)
 
 function user()
 {
-    return JWTAuth::parseToken()->authenticate();
+    return \JWTAuth::parseToken()->authenticate();
 }

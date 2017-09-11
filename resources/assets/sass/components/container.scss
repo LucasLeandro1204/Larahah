@@ -9,3 +9,13 @@
 .block {
   margin-bottom: 15px;
 }
+
+.content {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 350px;
+  border-radius: 4px;
+  padding: 30px 30px 15px;
+  background-color: $white;
+  box-shadow: 0 0 10px 0px $white + -30%;
+}

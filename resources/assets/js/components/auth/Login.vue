@@ -2,7 +2,7 @@
   section
     .container
       h1 Login
-      form
+      form.content
         .block
           span.brand
             img(src="images/letter.png")

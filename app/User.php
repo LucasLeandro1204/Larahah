@@ -55,8 +55,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims(): array
     {
-        return [
-            'exp' => now()->addMinutes(1)->timestamp,
-        ];
+        return [];
     }
 }

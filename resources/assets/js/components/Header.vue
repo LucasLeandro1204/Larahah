@@ -17,6 +17,8 @@
               router-link(:to="{ name: 'login' }") Login
           template(v-else)
             li(@click="toggle(true)")
+              router-link(:to="{ name: 'message' }" exact) Messages
+            li(@click="toggle(true)")
               router-link(:to="{ name: 'logout' }" exact) Logout
 </template>
 
@@ -40,6 +42,9 @@
   @import "~@/core/variables";
 
   header nav {
+    width: 100%;
+    z-index: 999;
+    position: fixed;
     background-color: $primary;
 
     .brand {
@@ -57,7 +62,6 @@
     }
 
     ul {
-      display: flex;
       background-color: $primary;
     }
 

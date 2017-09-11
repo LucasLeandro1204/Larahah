@@ -20,13 +20,6 @@
   @import "~@/core/variables";
 
   section {
-    padding: 30px 0;
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
     .container {
       flex-direction: column;
     }
@@ -36,14 +29,6 @@
     }
 
     form {
-      width: 100%;
-      margin: 0 auto;
-      max-width: 350px;
-      border-radius: 4px;
-      padding: 30px 30px 15px;
-      background-color: $white;
-      box-shadow: 0 0 10px 0px $white + -30%;
-
       a {
         color: $gray;
       }
