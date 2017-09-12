@@ -18,6 +18,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('register', 'Auth\RegisterController@store');
 });
 
-Route::middleware('jwt.auth', function () {
+Route::group(['middleware' => 'jwt.auth'], function () {
     Route::apiResource('message', 'MessageController');
 });

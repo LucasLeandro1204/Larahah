@@ -16,4 +16,4 @@ Route::post('/register', 'Auth\RegisterController@store');
 Route::any('{all}', function () {
     return view('index');
 })
-->where(['all' => '.*']);
+->where(['all' => '(?!api).*']);
