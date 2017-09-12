@@ -16,7 +16,7 @@ class LoginController extends Controller
     {
         $user = $request->getUser();
 
-        if (! Hash::check($data['password'], $user->password)) {
+        if (! Hash::check($request->get('password'), $user->password)) {
             return response()->json([], 401);
         }
 
