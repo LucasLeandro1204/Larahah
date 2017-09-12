@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Jobs\CreateMessage;
+use App\Queries\MessageQuery;
+use App\Http\Resources\MessageResource;
+use App\Http\Requests\CreateMessageRequest;
 
 class MessageController extends Controller
 {
@@ -13,18 +16,18 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        return new MessageResource(MessageQuery::get(request('query', 'default')));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateMessageRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMessageRequest $request)
     {
-        //
+        dispatch_now(CreateMessage::from($request));
     }
 
     /**
@@ -45,7 +48,7 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
     }

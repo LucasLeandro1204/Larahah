@@ -6,23 +6,17 @@ use App\User;
 use App\Jobs\CreateUser;
 use App\Jobs\CreateToken;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
-    public function store()
+    public function store(RegisterRequest $request)
     {
-        $data = request()->validate([
-            'name' => 'required|min:3|max:140',
-            'email' => 'required|unique:users|email',
-            'username' => 'required|unique:users|min:3|max:25',
-            'password' => 'required|confirmed',
-        ]);
-
-        $user = dispatch_now(new CreateUser($data));
+        $user = dispatch_now(CreateUser::from($request));
 
         return (new UserResource($user))->additional([
-            'token' => dispatch_now(new CreateToken($data)),
+            'token' => dispatch_now(new CreateToken($user)),
         ]);
     }
 }

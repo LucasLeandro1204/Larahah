@@ -6,19 +6,15 @@ use Hash;
 use JWTAuth;
 use App\User;
 use App\Jobs\CreateToken;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function login(LoginRequest $request): UserResource
     {
-        $data = request()->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $data['email'])->firstOrFail();
+        $user = $request->getUser();
 
         if (! Hash::check($data['password'], $user->password)) {
             return response()->json([], 401);

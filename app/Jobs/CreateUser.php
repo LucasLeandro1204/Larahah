@@ -3,12 +3,10 @@
 namespace App\Jobs;
 
 use App\User;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Http\Requests\RegisterRequest;
 
 class CreateUser
 {
-    use Dispatchable;
-
     /**
      * The user data.
      *
@@ -24,6 +22,16 @@ class CreateUser
     public function __construct(array $data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * Parse request data.
+     *
+     * @return self
+     */
+    public static function from(RegisterRequest $request)
+    {
+        return new static($request->all());
     }
 
     /**

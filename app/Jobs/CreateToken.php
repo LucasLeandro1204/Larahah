@@ -4,12 +4,9 @@ namespace App\Jobs;
 
 use JWTAuth;
 use App\User;
-use Illuminate\Foundation\Bus\Dispatchable;
 
 class CreateToken
 {
-    use Dispatchable;
-
     /**
      * The user data.
      *
