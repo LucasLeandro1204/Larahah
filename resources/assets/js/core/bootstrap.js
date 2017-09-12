@@ -15,7 +15,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const token = document.head.querySelector('meta[name="csrf-token"]');
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Auth.user();
+window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Auth.user().token;
 
 // import Echo from "laravel-echo"
 
