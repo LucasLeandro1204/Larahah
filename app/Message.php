@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes; // Soft deletes for receiver, set author_id to null when sender deletes.
 
     /**
      * The attributes that are mass assignable.

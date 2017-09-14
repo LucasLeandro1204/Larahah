@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateMessage;
 use App\Queries\MessageQuery;
-use App\Http\Resources\MessageResource;
+use App\Http\Resources\MessageCollection;
 use App\Http\Requests\CreateMessageRequest;
 
 class MessageController extends Controller
@@ -16,7 +16,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        return new MessageResource(MessageQuery::get(request('query', 'default')));
+        return new MessageCollection(MessageQuery::get(request('query', 'default')));
     }
 
     /**

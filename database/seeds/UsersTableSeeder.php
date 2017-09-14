@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Lucas',
             'username' => 'lucasleandro1204',
             'email' => 'lucas@lucas.com',
-            'password' => bcrypt('123'),
+            'password' => '123',
         ]);
         $lucas->save();
 
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Eryc',
             'username' => 'eryc',
             'email' => 'eryc@eryc.com',
-            'password' => bcrypt('123'),
+            'password' => '123',
         ]);
         $eryc->save();
     }

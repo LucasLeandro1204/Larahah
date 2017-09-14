@@ -12,7 +12,7 @@ use App\Http\Resources\UserResource;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request): UserResource
+    public function login(LoginRequest $request) // refact this, use attempt
     {
         $user = $request->getUser();
 

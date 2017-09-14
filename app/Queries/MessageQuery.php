@@ -3,19 +3,20 @@
 namespace App\Queries;
 
 use App\Message;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class MessageQuery
 {
-    public static function get(string $option): Message
+    public static function get(string $option): Paginator
     {
-        return Message::where(self::getWhereClauses($option))->get();
+        return Message::where(self::getWhereClauses($option))->paginate(5);
     }
 
     protected static function getWhereClauses($option)
     {
         $clauses = [
             'received' => [
-                ['author_id', '=', user()->id],
+                ['user_id', '=', user()->id],
             ],
             'favorite' => [
                 ['favorite', '=', 1],
