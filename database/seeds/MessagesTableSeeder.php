@@ -1,8 +1,9 @@
 <?php
 
+use App\Message;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class MessagesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(MessagesTableSeeder::class);
+        factory(Message::class, 15)->create();
     }
 }
