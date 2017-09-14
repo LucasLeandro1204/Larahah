@@ -16,7 +16,7 @@ class MessageResource extends Resource
     {
         return [
             'id' => $this->id, // hash this shit
-            'user' => UserResource::collection($this->user),
+            'user' => new UserResource($this->user),
             'body' => $this->body,
             'favorite' => $this->favorite,
             'created_at' => $this->created_at,
