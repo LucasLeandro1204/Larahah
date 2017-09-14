@@ -1,7 +1,7 @@
-import Auth from './auth';
+import Auth from '../services/auth';
 
 const Store = {
-  user: Auth.user(),
+  user: Auth.user,
 }
 
 export default Store;

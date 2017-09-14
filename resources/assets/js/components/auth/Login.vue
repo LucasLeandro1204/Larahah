@@ -15,6 +15,7 @@
           p(v-if="form.errors.password", v-text="form.errors.password")
         .block
           button(type="submit", @click.prevent="post") Login
+          p(v-if="form.errors.login", v-text="form.errors.login")
         .block
           router-link(:to="{ name: 'register' }") Doesn't have an account?
             span Join us
@@ -22,14 +23,14 @@
 
 <script>
   import Base from './Base.vue';
-  import Form from '../../core/form';
+  import Form from '../../services/form';
 
   export default {
     extends: Base,
 
     data: () => ({
       form: new Form({
-        route: '/api/login',
+        route: '/api/auth/login',
         fields: {
           email: '',
           password: '',

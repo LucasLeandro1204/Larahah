@@ -6,22 +6,62 @@ use Hash;
 use JWTAuth;
 use App\User;
 use App\Jobs\CreateToken;
-use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request) // refact this, use attempt
+    public function login()
     {
-        $user = $request->getUser();
+        $credentials = request()->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
 
-        if (! Hash::check($request->get('password'), $user->password)) {
-            return response()->json([], 401);
+        try {
+            $token = JWTAuth::attempt($credentials);
+        } catch (JWTException $e) {
+            abort(500, 'An error occurred');
         }
 
-        return (new UserResource($user))->additional([
-            'token' => dispatch_now(new CreateToken($user)),
+        if (!$token) {
+            return response()->json([
+                'errors' => [
+                    'login' => [
+                        'Please, check your credentials',
+                    ],
+                ],
+            ], 403);
+        }
+
+        return (new UserResource(User::findByEmail(request('email'))))->additional([
+            'token' => $token,
         ]);
+    }
+
+    public function check()
+    {
+        try {
+            JWTAuth::parseToken()->authenticate();
+        } catch (JWTException $e) {
+            abort(401);
+        }
+
+        return response('OK', 200);
+    }
+
+    public function logout()
+    {
+        try {
+            $token = JWTAuth::getToken();
+            if ($token) {
+                JWTAuth::invalidate($token);
+            }
+        } catch (JWTException $e) {
+            abort(401);
+        }
+
+        return response('OK', 200);
     }
 }

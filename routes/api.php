@@ -14,12 +14,16 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('register', 'Auth\RegisterController@store');
+    Route::post('auth/login', 'Auth\LoginController@login');
+    Route::post('auth/register', 'Auth\RegisterController@store');
 });
 
 Route::post('message', 'MessageController@store');
+
 Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('auth/check', 'Auth\LoginController@check');
+    Route::get('auth/logout', 'Auth\LoginController@logout');
+
     Route::apiResource('message', 'MessageController', ['except' => [
         'store',
     ]]);

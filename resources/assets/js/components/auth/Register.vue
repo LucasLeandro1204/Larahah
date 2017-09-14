@@ -31,14 +31,14 @@
 
 <script>
   import Base from './Base.vue';
-  import Form from '../../core/form';
+  import Form from '../../services/form';
 
   export default {
     extends: Base,
 
     data: () => ({
       form: new Form({
-        route: '/api/register',
+        route: '/api/auth/register',
         fields: {
           name: '',
           email: '',

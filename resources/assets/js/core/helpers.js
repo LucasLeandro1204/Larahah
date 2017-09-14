@@ -1,7 +1,7 @@
-const getItem = (item, cb = () => null) => {
-  const data = JSON.parse(localStorage.getItem(item));
-  if (data && (data.data != null && data.data != 'undefined')) {
-    return data.data;
+const getItem = (key, cb = () => null) => {
+  const item = JSON.parse(localStorage.getItem(key));
+  if (item && (item.data != null && item != 'undefined')) {
+    return item.data;
   }
 
   return cb();

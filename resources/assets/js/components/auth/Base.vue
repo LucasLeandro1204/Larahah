@@ -1,5 +1,5 @@
 <script>
-  import Auth from '../../core/auth';
+  import Auth from '../../services/auth';
 
   export default {
     store: ['user'],
@@ -7,8 +7,7 @@
     methods: {
       post () {
         this.form.post().then(({ data: user }) => {
-          Auth.login(user);
-          this.user = Auth.user();
+          this.user = Auth.login(Object.assign({}, user.data, { token: user.token }));
           this.$router.push({ name: 'home' });
         });
       }

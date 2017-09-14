@@ -25,16 +25,6 @@ class CreateUser
     }
 
     /**
-     * Parse request data.
-     *
-     * @return self
-     */
-    public static function from(RegisterRequest $request)
-    {
-        return new static($request->all());
-    }
-
-    /**
      * Execute the job.
      *
      * @return \App\User
