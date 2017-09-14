@@ -9,5 +9,5 @@ function dispatchInSequence(array $jobs, $data)
 
 function user()
 {
-    return \JWTAuth::parseToken()->authenticate();
+    return auth()->user();
 }
