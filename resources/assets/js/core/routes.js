@@ -10,4 +10,4 @@ export default [
   { path: '/login', name: 'login', component: Login, beforeEnter: guest },
   { path: '/register', name: 'register', component: Register, beforeEnter: guest },
   { path: '/message', name: 'message', component: Message, beforeEnter: authenticated },
-]
+];

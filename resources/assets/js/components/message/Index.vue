@@ -5,27 +5,44 @@
       article.content
         nav.block
           ul
-            li
-              a(href="#").active
-                i.fa.fa-inbox
-                span RECEIVED
-            li
-              a(href="#")
-                i.fa.fa-star
-                span FAVORITES
-            li
-              a(href="#")
-                i.fa.fa-paper-plane
-                span SENT
-        larahah-message
+            li(v-for="(tab, key) in tabs", :key="key")
+              a(href="#", :class="{ active: activeTab == key }", @click.prevent="activeTab = key")
+                i(:class="['fa', tab.icon]")
+                span(v-text="tab.title")
+        component(:is="currentTab", :type="activeTab")
 </template>
 
 <script>
-  import LarahahMessage from './Message.vue';
+  import Received from './Received.vue';
 
   export default {
     components: {
-      LarahahMessage,
+      Received,
+    },
+
+    data: () => ({
+      activeTab: 'received',
+      tabs: {
+        received: {
+          icon: 'fa-inbox',
+          title: 'RECEIVED',
+          component: 'received'
+        },
+        favorited: {
+          icon: 'fa-star',
+          title: 'FAVORITES',
+        },
+        sent: {
+          icon: 'fa-paper-plane',
+          title: 'SENT',
+        },
+      },
+    }),
+
+    computed: {
+      currentTab () {
+        return this.tabs[this.activeTab].component;
+      }
     }
   }
 </script>
