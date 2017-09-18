@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class Form {
   constructor ({ fields, route }) {
     this.keys = [];
@@ -15,7 +17,7 @@ class Form {
     this._errors = {};
 
     return new Promise((resolve, reject) => {
-      window.axios.request({
+      axios.request({
         method: method,
         url: this.route + sufix,
         data: this.fields,

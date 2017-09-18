@@ -1,17 +1,21 @@
-const getItem = (key, cb = () => null) => {
+const getItem = (key, callback = () => null, force = false) => {
   const item = JSON.parse(localStorage.getItem(key));
-  if (item && (item.data != null && item != 'undefined')) {
-    return item.data;
+
+  return item && !force ? (item.data || callback()) : callback();
+};
+
+const setItem = (key, item) => localStorage.setItem(key, JSON.stringify({ data: item })) || item;
+
+const rescue = async (resolve, reject = () => null) => {
+  try {
+    return await resolve();
+  } catch (e) {
+    return await reject();
   }
-
-  return cb();
-};
-
-const setItem = (key, item) => {
-  localStorage.setItem(key, JSON.stringify({ data: item }));
-};
+}
 
 export {
   getItem,
   setItem,
+  rescue,
 }

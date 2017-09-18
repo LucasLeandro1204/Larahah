@@ -1,58 +1,46 @@
 import axios from 'axios';
-import { getItem, setItem } from '../core/helpers';
-
-let checked = false;
-let user = getItem('user', () => ({
-  name: '',
-  token: '',
-  checked: false,
-}));
+import { getItem as get, setItem as set, rescue } from '../core/helpers';
 
 class Auth {
-  static async check (force = false) {
-    if ((!user.checked && !checked) || force) {
-      try {
-        await axios.get('/api/auth/check');
-        user.checked = true;
-      } catch (e) {
-        this.reset();
-        user.checked = false;
-      }
-    }
-    checked = true;
+  static async check () {
+    if (! this.user().auth.checked) {
+      const auth = { auth: { checked: true, ok: false, } };
 
-    return user.checked;
+      if (! await rescue(() => axios.get('/api/auth/check'), () => false)) {
+        auth.ok = true;
+      }
+
+      set('user', Object.assign(this.user(true), auth));
+    }
+
+    return this.user().auth.ok;
   }
 
   static login (data) {
-    user = Object.assign(user, data, { checked: true });
-    setItem('user', data);
-    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
+    data = set('user', Object.assign(data, { auth: { checked: true, ok: true, } }));
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
 
-    return user;
+    return this.user();
   }
 
-  static get user () {
-    return user;
-  }
-
-  static reset () {
-    setItem('user', {
-      name: '',
+  static user (force = false) {
+    return get('user', () => ({
       token: '',
-      checked: false,
-    });
+      auth: {
+        checked: false,
+        ok: false,
+      },
+    }), force);
   }
 
   static async logout () {
     this.reset();
-    user.checked = false;
-    try {
-      await axios.get('/api/auth/logout');
-    } catch (e) {
-      //
-    }
+    await rescue(axios.get('/api/auth/logout'));
   }
-}
+
+  static reset () {
+    return set('user', this.user(true));
+  }
+};
 
 export default Auth;

@@ -6,8 +6,9 @@
 
     methods: {
       post () {
-        this.form.post().then(({ data: user }) => {
-          this.user = Auth.login(Object.assign({}, user.data, { token: user.token }));
+        this.form.post().then(async ({ data: user }) => {
+          this.user = await Auth.login(Object.assign({}, user.data, { token: user.token }));
+          console.log(this.user);
           this.$router.push({ name: 'home' });
         });
       }
