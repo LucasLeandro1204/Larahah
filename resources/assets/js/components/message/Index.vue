@@ -9,16 +9,21 @@
               a(href="#", :class="{ active: activeTab == key }", @click.prevent="activeTab = key")
                 i(:class="['fa', tab.icon]")
                 span(v-text="tab.title")
-        component(:is="currentTab", :type="activeTab")
+        message(:type="activeTab", :value="key", :key="message.id", v-for="(message, key) in currentTab.data", v-if="currentTab.data.length")
+        div(v-else)
+          p No messages here =(
 </template>
 
 <script>
-  import Received from './Received.vue';
+  import axios from 'axios';
+  import Message from './Message.vue';
 
   export default {
     components: {
-      Received,
+      Message,
     },
+
+    store: ['messages'],
 
     data: () => ({
       activeTab: 'received',
@@ -41,9 +46,34 @@
 
     computed: {
       currentTab () {
-        return this.tabs[this.activeTab].component;
+        return this.messages[this.activeTab];
+      },
+
+      currentPage () {
+        return this.currentTab.meta.current_page;
+      },
+    },
+
+    created () {
+      if (this.currentTab.data.length <= 0) {
+        this.fetch();
       }
-    }
+    },
+
+    methods: {
+      fetch () {
+        return axios.get('/api/message/', {
+          params: {
+            query: this.activeTab,
+            page: this.currentPage + 1,
+          },
+        })
+        .then(({ data: message }) => {
+          this.currentTab.meta = message.meta;
+          this.currentTab.data.push(...message.data);
+        });
+      }
+    },
   }
 </script>
 

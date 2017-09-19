@@ -14,8 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require __DIR__.'/../Support/helpers.php';
-
         Resource::withoutWrapping();
     }
 
