@@ -17,7 +17,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'body',
+        'body', 'author_id',
     ];
 
     /**
