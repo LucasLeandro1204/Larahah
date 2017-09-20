@@ -34,7 +34,7 @@ class CreateMessage
      *
      * @return void
      */
-    public function __construct(User $user, string $body, $author)
+    public function __construct(User $user, string $body, $author = null)
     {
         $this->user = $user;
         $this->body = $body;
@@ -48,8 +48,10 @@ class CreateMessage
      */
     public static function from(CreateMessageRequest $request): self
     {
+        $user = self::canReceiveAnonymousMessages($request->getUser(), $request->get('author'));
+
         return new static(
-            $request->getUser(),
+            $user,
             $request->get('body'),
             $request->get('author')
         );
@@ -58,11 +60,20 @@ class CreateMessage
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): Message
     {
-        $this->user->messages()->create([
+        return $this->user->messages()->create([
             'body' => $this->body,
             'author_id' => $this->author,
         ]);
+    }
+
+    protected static function canReceiveAnonymousMessages(User $user, $author = null): User
+    {
+        if (is_null($author) && !$user->anonymous) {
+            abort(400);
+        }
+
+        return $user;
     }
 }
