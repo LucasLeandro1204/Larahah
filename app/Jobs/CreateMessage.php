@@ -65,13 +65,13 @@ class CreateMessage
         return $this->user->messages()->create([
             'body' => $this->body,
             'author_id' => $this->author,
-        ]);
+        ])->fresh();
     }
 
     protected static function canReceiveAnonymousMessages(User $user, $author = null): User
     {
         if (is_null($author) && !$user->anonymous) {
-            abort(400);
+            abort(400, 'This user does not accept anonymous messages.');
         }
 
         return $user;

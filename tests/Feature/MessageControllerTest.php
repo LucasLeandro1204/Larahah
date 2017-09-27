@@ -11,20 +11,23 @@ class MessageControllerTest extends BrowserKitTestCase
     use RefreshDatabase;
 
     /** @test */
-    public function we_can_create_a_message_without_an_author()
+    public function can_get_messages()
     {
-        $this->assertEmpty(Message::get());
+        $this->get('/api/message');
     }
 
     /** @test */
-    public function we_can_create_a_message_with_an_author()
+    public function can_create_a_message_without_an_author()
     {
-        $this->assertEmpty(Message::get());
     }
 
     /** @test */
-    public function we_can_not_create_a_message_without_author_if_user_set_anonymous_to_false()
+    public function an_create_a_message_with_an_author()
     {
-        $this->assertEmpty(Message::get());
+    }
+
+    /** @test */
+    public function can_not_create_a_message_without_author_if_user_set_anonymous_to_false()
+    {
     }
 }

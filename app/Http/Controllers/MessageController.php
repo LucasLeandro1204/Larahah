@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\CreateMessage;
+use App\Jobs\DeleteMessage;
 use App\Queries\MessageQuery;
 use App\Http\Resources\MessageResource;
 use App\Http\Requests\CreateMessageRequest;
@@ -31,29 +32,6 @@ class MessageController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -61,6 +39,6 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dispatch_now(new DeleteMessage(Message::firstOrFail($id), user()));
     }
 }

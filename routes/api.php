@@ -25,6 +25,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth/logout', 'Auth\LoginController@logout');
 
     Route::apiResource('message', 'MessageController', ['except' => [
-        'store',
+        'show', 'store',
     ]]);
 });

@@ -47,4 +47,19 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function isOwner(User $user): bool
+    {
+        return $this->user_id == $user->id;
+    }
+
+    public function isAuthor(User $user): bool
+    {
+        return $this->author_id == $user->id;
+    }
+
+    public function toggleFavorite()
+    {
+        $this->favorite = (int) ! $this->favorite;
+    }
 }
