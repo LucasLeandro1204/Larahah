@@ -30,6 +30,15 @@ class Message extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'favorite' => 'boolean',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -60,6 +69,9 @@ class Message extends Model
 
     public function toggleFavorite()
     {
-        $this->favorite = (int) ! $this->favorite;
+        $this->favorite = ! $this->favorite;
+        $this->save();
+
+        return $this;
     }
 }

@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Jobs\CreateMessage;
 use App\Jobs\DeleteMessage;
 use App\Jobs\FavoriteMessage;
+use App\Jobs\ToggleMessageFavorite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MessageTest extends TestCase
@@ -59,6 +60,24 @@ class MessageTest extends TestCase
 
         $this->assertInstanceOf(Message::class, $message);
         $this->assertNull($message->author_id);
+    }
+
+    /** @test */
+    public function we_can_toggle_favorite()
+    {
+        $user = $this->createUser();
+
+        $message = $this->createMessage($user);
+        $this->assertFalse($message->favorite);
+
+        $message = (new ToggleMessageFavorite($message))->handle();
+        $this->assertTrue($message->favorite);
+
+        $message = (new ToggleMessageFavorite($message))->handle();
+        $this->assertFalse($message->favorite);
+
+        $message = (new ToggleMessageFavorite($message))->handle();
+        $this->assertTrue($message->favorite);
     }
 
     protected function createMessage(User $user, $author_id = null, $body = 'foo'): Message
