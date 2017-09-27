@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\User;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\CreateUserRequest;
 
 class CreateUser
 {
@@ -25,12 +25,25 @@ class CreateUser
     }
 
     /**
+     * Parse request data.
+     *
+     * @return self
+     */
+    public static function from(CreateUserRequest $request): self
+    {
+        return new static($request->all());
+    }
+
+    /**
      * Execute the job.
      *
      * @return \App\User
      */
     public function handle(): User
     {
-        return tap(new User($this->data))->save();
+        $user = new User($this->data);
+        $user->save();
+
+        return $user->fresh();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\CreateMessage;
 use App\Jobs\DeleteMessage;
 use App\Queries\MessageQuery;
+use App\Jobs\ToggleMessageFavorite;
 use App\Http\Resources\MessageResource;
 use App\Http\Requests\CreateMessageRequest;
 
@@ -29,6 +30,16 @@ class MessageController extends Controller
     public function store(CreateMessageRequest $request)
     {
         dispatch_now(CreateMessage::from($request));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id)
+    {
+        dispatch_now(new ToggleMessageFavorite(Message::firstOrFail($id)));
     }
 
     /**
