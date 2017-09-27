@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 abstract class BrowserKitTestCase extends BaseTestCase
 {
@@ -13,5 +13,5 @@ abstract class BrowserKitTestCase extends BaseTestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://larahah';
+    public $baseUrl = 'http://larahah';
 }

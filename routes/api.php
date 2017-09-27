@@ -18,8 +18,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('auth/register', 'Auth\RegisterController@store');
 });
 
-Route::post('message', 'MessageController@store');
-
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth/check', 'Auth\LoginController@check');
     Route::get('auth/logout', 'Auth\LoginController@logout');
@@ -28,3 +26,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         'show', 'store',
     ]]);
 });
+
+Route::post('message', 'MessageController@store');
