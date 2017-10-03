@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\CreateMessage;
-use App\Jobs\DeleteMessage;
-use App\Queries\MessageQuery;
-use App\Jobs\ToggleMessageFavorite;
-use App\Http\Resources\MessageResource;
-use App\Http\Requests\CreateMessageRequest;
+use App\Jobs\CreateMessage as Create;
+use App\Jobs\DeleteMessage as Delete;
+use App\Queries\MessageQuery as Query;
+use App\Jobs\ToggleMessageFavorite as Favorite;
+use App\Http\Resources\MessageResource as Resource;
+use App\Http\Requests\CreateMessageRequest as Request;
 
 class MessageController extends Controller
 {
@@ -18,28 +18,28 @@ class MessageController extends Controller
      */
     public function index()
     {
-        return MessageResource::collection(MessageQuery::get(request('query', 'default')));
+        return Resource::collection(Query::get(request('query', 'default')));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateMessageRequest $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return void
      */
-    public function store(CreateMessageRequest $request)
+    public function store(Request $request)
     {
-        dispatch_now(CreateMessage::from($request));
+        dispatch_now(Create::from($request));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update a resource in storage.
      *
      * @return \Illuminate\Http\Response
      */
     public function update($id)
     {
-        dispatch_now(new ToggleMessageFavorite(Message::firstOrFail($id)));
+        dispatch_now(new Favorite(Message::firstOrFail($id)));
     }
 
     /**
@@ -50,6 +50,6 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        dispatch_now(new DeleteMessage(Message::firstOrFail($id), user()));
+        dispatch_now(new Delete(Message::firstOrFail($id), user()));
     }
 }

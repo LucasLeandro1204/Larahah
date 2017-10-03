@@ -7,8 +7,8 @@ $factory->define(App\Message::class, function (Faker $faker) {
     static $author;
 
     return [
-        'user_id' => $user ?: $user = \App\User::first()->id,
-        'author_id' => $author ?: $author = \App\User::where('id', '!=', $user)->first()->id,
+        'user_id' => $user ? $user : $user = factory(\App\User::class)->create()->id,
+        'author_id' => $author ? $author : $author = factory(\App\User::class)->create()->id,
         'body' => $faker->text(rand(50, 130)),
     ];
 });

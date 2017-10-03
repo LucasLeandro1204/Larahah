@@ -17,14 +17,34 @@ class MessageControllerTest extends TestCase
             'username' => 'test',
         ]);
 
-        $response = $this->json('POST', '/api/message', [
-            'username' => 'test',
+        $this->json('POST', route('message.store'), [
             'body' => 'foo',
-        ]);
-        $response->assertStatus(200);
+            'username' => 'test',
+        ])->assertStatus(200);
 
         $message = Message::first();
 
         $this->assertTrue($message->isOwner($user));
+        $this->assertNull($message->author);
+    }
+
+    /** @test */
+    public function can_create_a_message_with_an_author()
+    {
+        $user = $this->createUser([
+            'username' => 'test',
+        ]);
+        $author = $this->createUser();
+
+        $this->json('POST', '/api/message', [
+            'body' => 'foo',
+            'username' => 'test',
+            'author' => $author->id,
+        ])->assertStatus(200);
+
+        $message = Message::first();
+
+        $this->assertTrue($message->isOwner($user));
+        $this->assertEquals($message->author_id, $author->id);
     }
 }
