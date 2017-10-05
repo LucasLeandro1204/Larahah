@@ -27,4 +27,4 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     ]]);
 });
 
-Route::post('message', 'MessageController@store');
+Route::post('message', 'MessageController@store')->name('message.store');

@@ -36,7 +36,7 @@ class MessageControllerTest extends TestCase
         ]);
         $author = $this->createUser();
 
-        $this->json('POST', '/api/message', [
+        $this->json('POST', route('message.store'), [
             'body' => 'foo',
             'username' => 'test',
             'author' => $author->id,
