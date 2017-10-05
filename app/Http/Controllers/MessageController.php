@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Message;
 use App\Jobs\CreateMessage as Create;
 use App\Jobs\DeleteMessage as Delete;
 use App\Queries\MessageQuery as Query;
@@ -39,7 +40,7 @@ class MessageController extends Controller
      */
     public function update($id)
     {
-        dispatch_now(new Favorite(Message::firstOrFail($id)));
+        dispatch_now(new Favorite(Message::findOrFail($id)));
     }
 
     /**
@@ -50,6 +51,6 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        dispatch_now(new Delete(Message::firstOrFail($id), user()));
+        dispatch_now(new Delete(Message::findOrFail($id), user()));
     }
 }
