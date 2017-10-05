@@ -10,7 +10,6 @@ class MessageControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
     public function can_create_a_message_without_an_author()
     {
         $user = $this->createUser([
@@ -28,7 +27,6 @@ class MessageControllerTest extends TestCase
         $this->assertNull($message->author);
     }
 
-    /** @test */
     public function can_create_a_message_with_an_author()
     {
         $user = $this->createUser([
@@ -46,5 +44,26 @@ class MessageControllerTest extends TestCase
 
         $this->assertTrue($message->isOwner($user));
         $this->assertEquals($message->author_id, $author->id);
+    }
+
+    /** @test */
+    public function can_favorite_a_message()
+    {
+        $message = factory(Message::class)->create();
+
+        $this->assertTrue($this->toggleFavorite($message));
+        $this->assertFalse($this->toggleFavorite($message));
+        $this->assertTrue($this->toggleFavorite($message));
+    }
+
+    private function toggleFavorite(Message $message): bool
+    {
+        $user = $message->user;
+
+        $this->actingAs($user)
+            ->json('PUT', route('message.update', $message))
+            ->assertStatus(200);
+
+        return $message->fresh()->favorite;
     }
 }
