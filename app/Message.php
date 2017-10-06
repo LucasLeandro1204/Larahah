@@ -60,7 +60,7 @@ class Message extends Model
 
     public function toggleFavorite()
     {
-        $this->favorite = ! $this->favorite;
+        $this->favorite = !$this->favorite;
         $this->save();
 
         return $this;

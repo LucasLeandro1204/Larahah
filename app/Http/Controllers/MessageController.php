@@ -6,6 +6,7 @@ use App\Message;
 use App\Jobs\CreateMessage as Create;
 use App\Jobs\DeleteMessage as Delete;
 use App\Queries\MessageQuery as Query;
+use App\Policies\MessagePolicy as Policy;
 use App\Jobs\ToggleMessageFavorite as Favorite;
 use App\Http\Resources\MessageResource as Resource;
 use App\Http\Requests\CreateMessageRequest as Request;
@@ -38,9 +39,11 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Message $message)
     {
-        dispatch_now(new Favorite(Message::findOrFail($id)));
+        $this->authorize(Policy::UPDATE, $message);
+
+        dispatch_now(new Favorite($message));
     }
 
     /**
@@ -49,8 +52,8 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Message $message)
     {
-        dispatch_now(new Delete(Message::findOrFail($id), user()));
+        dispatch_now(new Delete($message, user()));
     }
 }

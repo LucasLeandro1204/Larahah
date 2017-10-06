@@ -4,11 +4,10 @@ namespace App\Policies;
 
 use App\User;
 use App\Message;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MessagePolicy
 {
-    use HandlesAuthorization;
+    const UPDATE = 'update';
 
     /**
      * Determine whether the user can view the message.
@@ -42,7 +41,7 @@ class MessagePolicy
      */
     public function update(User $user, Message $message)
     {
-        //
+        return $message->isOwner($user);
     }
 
     /**
