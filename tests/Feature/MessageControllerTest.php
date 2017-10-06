@@ -10,6 +10,7 @@ class MessageControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @test */
     public function can_create_a_message_without_an_author()
     {
         $user = $this->createUser([
@@ -27,6 +28,7 @@ class MessageControllerTest extends TestCase
         $this->assertNull($message->author);
     }
 
+    /** @test */
     public function can_create_a_message_with_an_author()
     {
         $user = $this->createUser([
