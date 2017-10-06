@@ -54,6 +54,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
+        $this->authorize(Policy::DELETE, $message);
+
         dispatch_now(new Delete($message, user()));
     }
 }

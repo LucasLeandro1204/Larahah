@@ -24,7 +24,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::bind('message', function ($id) {
-            return \App\Message::findOrFail($id);
+            return \App\Message::withTrashed()->findOrFail($id);
         });
 
         parent::boot();

@@ -9,7 +9,7 @@ class MessageQuery
 {
     public static function get(string $option): Paginator
     {
-        return Message::where(self::getWhereClauses($option))->paginate(5)->appends([
+        return Message::withTrashed()->where(self::getWhereClauses($option))->paginate(5)->appends([
             'query' => $option,
         ]);
     }
@@ -18,10 +18,12 @@ class MessageQuery
     {
         $clauses = [
             'received' => [
+                ['deleted_at', '=', null],
                 ['user_id', '=', user()->id],
             ],
             'favorite' => [
                 ['favorite', '=', 1],
+                ['deleted_at', '=', null],
                 ['user_id', '=', user()->id],
             ],
             'sent' => [
@@ -29,6 +31,6 @@ class MessageQuery
             ],
         ];
 
-        return array_get($clauses, $option, $clauses['sent']);
+        return array_get($clauses, $option, $clauses['received']);
     }
 }

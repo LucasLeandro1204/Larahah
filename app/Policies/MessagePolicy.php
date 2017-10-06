@@ -7,30 +7,8 @@ use App\Message;
 
 class MessagePolicy
 {
+    const DELETE = 'delete';
     const UPDATE = 'update';
-
-    /**
-     * Determine whether the user can view the message.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Message  $message
-     * @return mixed
-     */
-    public function view(User $user, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create messages.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
-    {
-        //
-    }
 
     /**
      * Determine whether the user can update the message.
@@ -39,7 +17,7 @@ class MessagePolicy
      * @param  \App\Message  $message
      * @return mixed
      */
-    public function update(User $user, Message $message)
+    public function update(User $user, Message $message): bool
     {
         return $message->isOwner($user);
     }
@@ -51,8 +29,8 @@ class MessagePolicy
      * @param  \App\Message  $message
      * @return mixed
      */
-    public function delete(User $user, Message $message)
+    public function delete(User $user, Message $message): bool
     {
-        //
+        return $message->isOwner($user) || $message->isAuthor($user);
     }
 }
