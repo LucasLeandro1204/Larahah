@@ -49,22 +49,23 @@ class MessageControllerTest extends TestCase
     }
 
     /** @test */
-    public function can_favorite_a_message()
+    public function can_favorite_a_message_if_is_owner()
     {
         $message = factory(Message::class)->create();
+        $notOwner = $this->createUser();
+
+        $this->assertFalse($this->toggleFavorite($message, $notOwner, 403));
 
         $this->assertTrue($this->toggleFavorite($message));
         $this->assertFalse($this->toggleFavorite($message));
         $this->assertTrue($this->toggleFavorite($message));
     }
 
-    private function toggleFavorite(Message $message): bool
+    private function toggleFavorite(Message $message, $user = null, $status = 200): bool
     {
-        $user = $message->user;
-
-        $this->actingAs($user)
+        $this->actingAs($user ?: $message->user)
             ->json('PUT', route('message.update', $message))
-            ->assertStatus(200);
+            ->assertStatus($status);
 
         return $message->fresh()->favorite;
     }
