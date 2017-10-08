@@ -14,7 +14,7 @@ class MessageQuery
         ]);
     }
 
-    protected static function getWhereClauses($option)
+    protected static function getWhereClauses($option): array
     {
         $clauses = [
             'received' => [
