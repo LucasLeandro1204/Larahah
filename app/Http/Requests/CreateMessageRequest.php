@@ -6,6 +6,14 @@ use App\User;
 
 class CreateMessageRequest extends Request
 {
+
+    /**
+     * The request user.
+     *
+     * @return User
+     */
+    protected $user;
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,6 +29,6 @@ class CreateMessageRequest extends Request
 
     public function getUser(): User
     {
-        return User::where('username', $this->get('username'))->firstOrFail();
+        return $this->user ?: $this->user = User::where('username', $this->get('username'))->firstOrFail();
     }
 }

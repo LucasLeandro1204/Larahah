@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\User;
 use App\Message;
+use App\Notifications\MessageReceived;
 use App\Http\Requests\CreateMessageRequest;
 
 class CreateMessage
@@ -30,15 +31,23 @@ class CreateMessage
     protected $author;
 
     /**
+     * Notify the user.
+     *
+     * @var bool
+     */
+    protected $notify = false;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, string $body, $author = null)
+    public function __construct(User $user, string $body, $author = null, $notify = false)
     {
         $this->user = $user;
         $this->body = $body;
         $this->author = $author;
+        $this->notify = $notify;
     }
 
     /**
@@ -53,7 +62,8 @@ class CreateMessage
         return new static(
             $user,
             $request->get('body'),
-            $request->get('author')
+            $request->get('author'),
+            true
         );
     }
 
@@ -62,10 +72,16 @@ class CreateMessage
      */
     public function handle(): Message
     {
-        return $this->user->messages()->create([
+        $message = $this->user->messages()->create([
             'body' => $this->body,
             'author_id' => $this->author,
         ])->fresh();
+
+        if ($this->notify) {
+            $this->user->notify(new MessageReceived($message));
+        }
+
+        return $message;
     }
 
     protected static function canReceiveAnonymousMessages(User $user, $author = null): User
