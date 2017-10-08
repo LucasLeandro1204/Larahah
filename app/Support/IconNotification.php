@@ -53,7 +53,7 @@ class IconNotification
     {
         return [
             'message' => $this->message,
-            'icon' => 'fa fa-' + $this->icon,
+            'icon' => 'fa fa-' . $this->icon,
         ];
     }
 }
