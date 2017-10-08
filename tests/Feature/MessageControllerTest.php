@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Message;
 use Tests\TestCase;
+use App\Notifications\MessageReceived;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MessageControllerTest extends TestCase
@@ -13,6 +15,8 @@ class MessageControllerTest extends TestCase
     /** @test */
     public function can_create_a_message_without_an_author()
     {
+        Notification::fake();
+
         $user = $this->createUser([
             'username' => 'test',
         ]);
@@ -26,11 +30,21 @@ class MessageControllerTest extends TestCase
 
         $this->assertTrue($message->isOwner($user));
         $this->assertNull($message->author);
+
+        Notification::assertSentTo(
+            $user,
+            MessageReceived::class,
+            function ($notification) use ($message) {
+                return $notification->message->id == $message->id;
+            }
+        );
     }
 
     /** @test */
     public function can_create_a_message_with_an_author()
     {
+        Notification::fake();
+
         $user = $this->createUser([
             'username' => 'test',
         ]);
@@ -46,6 +60,16 @@ class MessageControllerTest extends TestCase
 
         $this->assertTrue($message->isOwner($user));
         $this->assertEquals($message->author_id, $author->id);
+
+        Notification::assertSentTo(
+            $user,
+            MessageReceived::class,
+            function ($notification) use ($message) {
+                return $notification->message->id == $message->id;
+            }
+        );
+
+        Notification::assertNotSentTo([$author], MessageReceived::class);
     }
 
     /** @test */

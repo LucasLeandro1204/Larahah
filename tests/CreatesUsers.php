@@ -8,6 +8,6 @@ trait CreatesUsers
 {
     protected function createUser(array $attributes = []): User
     {
-        return factory(User::class)->create($attributes);
+        return factory(User::class)->create($attributes)->fresh();
     }
 }

@@ -15,7 +15,7 @@ class MessageReceived extends Notification
      *
      * @var Message
      */
-    protected $message;
+    public $message;
 
     /**
      * Create a new notification instance.
