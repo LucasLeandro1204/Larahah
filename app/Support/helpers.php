@@ -19,3 +19,13 @@ if (! function_exists('filter_keys')) {
         return array_keys(array_filter($data));
     }
 }
+
+if (! function_exists('array_get_d')) {
+    /**
+     * Get array value with default array value.
+     */
+    function array_get_d(array $data, $key, $defaultKey): array
+    {
+        return array_get($data, $key, array_get($data, $defaultKey));
+    }
+}

@@ -7,14 +7,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 class MessageQuery
 {
-    public static function get(string $option): Paginator
-    {
-        return Message::withTrashed()->where(self::getWhereClauses($option))->paginate(5)->appends([
-            'query' => $option,
-        ]);
-    }
-
-    protected static function getWhereClauses($option): array
+    public static function get(string $option, int $perPage = 5): Paginator
     {
         $clauses = [
             'received' => [
@@ -31,6 +24,11 @@ class MessageQuery
             ],
         ];
 
-        return array_get($clauses, $option, $clauses['received']);
+        return Message::withTrashed()
+            ->where(array_get_d($clauses, $option, 'received'))
+            ->paginate($perPage)
+            ->appends([
+                'query' => $option,
+            ]);
     }
 }
